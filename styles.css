@@ -950,6 +950,8 @@
 
         padding: 5px;
         font-size: large;
+        font-family: arial, sans-serif;
+        font-weight: bold;
         text-wrap: wrap;
         outline: none;
         border: none;

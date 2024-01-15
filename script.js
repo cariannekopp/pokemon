@@ -6,7 +6,9 @@ const randomPokemonSearchButton = document.getElementById('yellowBox1')
 const backOnePokemonButton = document.getElementById('barbutton2')
 const forwardOnePokemonButton = document.getElementById('barbutton1')
 const evolutionsButton = document.getElementById('evolutions-button')
+const abilitiesButton = document.getElementById('abilities-button')
 const changeSpriteImgButton = document.getElementById('buttonbottomPicture')
+
 
 triggerButton.addEventListener('click', () => getPokemonNameToSearch(pokemonSearchBox.value))
 triggerButton.addEventListener('click', () => setPokemonData(pokemon), false)
@@ -14,6 +16,7 @@ randomPokemonSearchButton.addEventListener('click', () => displayRandomPokemon()
 backOnePokemonButton.addEventListener('click', () => displayOnePokemonBack())
 forwardOnePokemonButton.addEventListener('click', () => displayOnePokemonForward())
 evolutionsButton.addEventListener('click', () => setPokemonEvolutionData())
+abilitiesButton.addEventListener('click', () => setAbilitiesData())
 changeSpriteImgButton.addEventListener('click', () => changeSpriteImage())
 
 
@@ -31,11 +34,15 @@ async function getPokemonNameToSearch(pokemonSearchBoxValue) {
 
 async function setPokemonData(pokemon) {
   const pokemonData = await getPokemonDataByName(pokemon)
+  document.getElementById('stats-data').removeAttribute('hidden', "")
+  document.getElementById('evolutions-data').setAttribute('hidden', "")
+  document.getElementById('abilities-data').setAttribute('hidden', "")
   displayPokemonIdNumber(pokemonData)
   displaySprites(pokemon, pokemonData.sprites)
   displayPokemonName(pokemon);
   displayType(pokemonData.types)
   // TODO: displayHeight
+  displayHeight(pokemonData.height);
   displayWeight(pokemonData.weight)
   displayGenus(pokemonData)
   displayFlavorText(pokemonData)
@@ -86,6 +93,11 @@ function capitalizeFirstLetter(str) {
 async function displayType(types) {
   const pokemonType = capitalizeFirstLetter(types[0].type.name);
   document.getElementById('stats-data').childNodes[6].textContent = "  " + pokemonType;
+}
+
+async function displayHeight(height) {
+  const pokemonHeight = height;
+  document.getElementById('stats-data').childNodes[10].textContent = "  " + pokemonHeight;
 }
 
 async function displayWeight(weight) {
@@ -151,6 +163,7 @@ async function displayOnePokemonForward() {
 
 async function setPokemonEvolutionData() {
   document.getElementById('stats-data').setAttribute('hidden', "")
+  document.getElementById('abilities-data').setAttribute('hidden', "")
   document.getElementById('evolutions-data').removeAttribute('hidden', "")
   const pokemonIdNumber = document.getElementById('pokemon-id-number').textContent;
   const pokemonData = await getPokemonDataById(pokemonIdNumber)
@@ -158,6 +171,7 @@ async function setPokemonEvolutionData() {
   displayEvolvesFrom(pokemonSpeciesData);
   displayEvolvesInto(pokemonSpeciesData);
   displayEvolutionTrigger(pokemonSpeciesData);
+  displayGrowthRate(pokemonSpeciesData);
 }
 
 async function displayEvolvesFrom(pokemonSpeciesData) {
@@ -187,10 +201,20 @@ async function displayEvolutionTrigger(pokemonSpeciesData) {
   const evolutionChain = await getEvolutionChain(evolutionChainUrl)
 
   const evolutionTrigger = evolutionChain.chain.evolves_to[0].evolution_details[0].trigger.name;
-  console.log(evolutionTrigger)
   document.getElementById('evolutions-data').childNodes[10].textContent = "  " + evolutionTrigger
 }
 
+async function displayGrowthRate(pokemonSpeciesData) {
+  const growthRate = pokemonSpeciesData.growth_rate.name
+  document.getElementById('evolutions-data').childNodes[14].textContent = "  " + growthRate
+}
+
+async function setAbilitiesData() {
+  document.getElementById('stats-data').setAttribute('hidden', "")
+  document.getElementById('evolutions-data').setAttribute('hidden', "")
+  document.getElementById('abilities-data').removeAttribute('hidden', "")
+
+}
 
 
 async function displayAbilities(abilities) {
