@@ -1,12 +1,21 @@
-import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.5/+esm';
+import { getPokemonDataByName, getPokemonDataById, getPokemonSpecies, getEvolutionChain } from './getMethods.js'
 
 const pokemonSearchBox = document.querySelector('.pokemon-search')
 const triggerButton = document.querySelector('.trigger-button')
 const randomPokemonSearchButton = document.getElementById('yellowBox1')
+const backOnePokemonButton = document.getElementById('barbutton2')
+const forwardOnePokemonButton = document.getElementById('barbutton1')
+const evolutionsButton = document.getElementById('evolutions-button')
+const changeSpriteImgButton = document.getElementById('buttonbottomPicture')
 
 triggerButton.addEventListener('click', () => getPokemonNameToSearch(pokemonSearchBox.value))
-triggerButton.addEventListener('click', () => getResponse(pokemon), false)
-randomPokemonSearchButton.addEventListener('click', () => console.log('ive been clicked'))
+triggerButton.addEventListener('click', () => setPokemonData(pokemon), false)
+randomPokemonSearchButton.addEventListener('click', () => displayRandomPokemon())
+backOnePokemonButton.addEventListener('click', () => displayOnePokemonBack())
+forwardOnePokemonButton.addEventListener('click', () => displayOnePokemonForward())
+evolutionsButton.addEventListener('click', () => setPokemonEvolutionData())
+changeSpriteImgButton.addEventListener('click', () => changeSpriteImage())
+
 
 const baseUrl = 'https://pokeapi.co/api/v2/pokemon/'
 let pokemon = 'pikachu'
@@ -20,53 +29,53 @@ async function getPokemonNameToSearch(pokemonSearchBoxValue) {
   }
 }
 
-async function getResponse(pokemon) {
-    axios.get(baseUrl + pokemon)
-      .then(function (response) {
-        const responseData = response.data
-        displayPokemonIdNumber(responseData)
-        displaySprites(pokemon, responseData.sprites)
-        displayPokemonName(pokemon);
-        displayType(responseData.types)
-        // TODO: displayHeight
-        displayWeight(responseData.weight)
-        displayGenus(responseData)
-        displayFlavorText(responseData)
-        // TODO: display Genus (need to grab species url, call it, then get genera/genus with language 'en')
-        // TODO: displayFlavorText (need to grab species url, call it, then pick random flavor text)
-        // displayAbilities(responseData.abilities)
-        // displayForms(responseData.forms)
-        // displayMoves(responseData.moves)
-        // displaySpecies(responseData.species)
-        
-        // displayStats(responseData.stats)
-        // displayTypes(responseData.types)
-        
-      })
-      .catch(function (error) {
-        console.log(error)
-        document.getElementById('error-message').textContent = "Invalid Pokemon.  Check your spelling"
-      })
-      .finally(function() {
-        // console.log('finally this is the response' + response)
-      })
+async function setPokemonData(pokemon) {
+  const pokemonData = await getPokemonDataByName(pokemon)
+  displayPokemonIdNumber(pokemonData)
+  displaySprites(pokemon, pokemonData.sprites)
+  displayPokemonName(pokemon);
+  displayType(pokemonData.types)
+  // TODO: displayHeight
+  displayWeight(pokemonData.weight)
+  displayGenus(pokemonData)
+  displayFlavorText(pokemonData)
 }
 
 async function displayPokemonIdNumber(pokemonResponseData) {
   const pokemonIdNumber = pokemonResponseData.id;
+  if(pokemonIdNumber > 999) {
+    document.getElementById('pokemon-id-number').style.fontSize='x-large';
+    document.getElementById('pokemon-id-number').style.marginTop='-3px';
+  } else {
+    document.getElementById('pokemon-id-number').style.fontSize='xx-large';
+    document.getElementById('pokemon-id-number').style.marginTop='-10px';
+  }
   document.getElementById('pokemon-id-number').textContent = pokemonIdNumber;
 }
 
 async function displaySprites(pokemon, sprites) {
   document.getElementById('display-picture').src = sprites.front_default
   document.getElementById('display-picture').alt = pokemon;
+
   // TODO: Make image into a gif using more sprites
   // Call pokemon species endpoint to get 'varities' of pokemon that has more sprites
 }
 
+async function changeSpriteImage() {
+  const pokemonId = Number(document.getElementById('pokemon-id-number').textContent)
+  const pokemonData = await getPokemonDataById(pokemonId)
+  const sprites = pokemonData.sprites;
+  const spriteImages = [sprites.front_default, sprites.back_default]
+  if (document.getElementById('display-picture').src === spriteImages[0]) {
+    document.getElementById('display-picture').src = spriteImages[1]
+  } else {
+    document.getElementById('display-picture').src = spriteImages[0]
+  }
+}
+
 async function displayPokemonName(pokemon) {
   const pokemonName = await capitalizeFirstLetter(pokemon);
-  document.getElementById('stats').childNodes[2].textContent = "  " + pokemonName;
+  document.getElementById('stats-data').childNodes[2].textContent = "  " + pokemonName;
 }
 
 function capitalizeFirstLetter(str) {
@@ -76,24 +85,12 @@ function capitalizeFirstLetter(str) {
 
 async function displayType(types) {
   const pokemonType = capitalizeFirstLetter(types[0].type.name);
-  document.getElementById('stats').childNodes[6].textContent = "  " + pokemonType;
+  document.getElementById('stats-data').childNodes[6].textContent = "  " + pokemonType;
 }
 
 async function displayWeight(weight) {
   const pokemonWeight = weight;
-  document.getElementById('stats').childNodes[14].textContent = "  " + pokemonWeight;
-}
-
-async function getPokemonSpecies(pokemonResponseData) {
-  const pokemonSpeciesEndpoint = pokemonResponseData.species.url;
-  const pokemonSpeciesResponseData =
-  axios.get(pokemonSpeciesEndpoint)
-  .then(response => {
-    return response.data
-  }).catch(function (error) {
-    console.log(error)
-  })
-  return pokemonSpeciesResponseData
+  document.getElementById('stats-data').childNodes[14].textContent = "  " + pokemonWeight;
 }
 
 async function displayGenus(pokemonResponseData) {
@@ -102,7 +99,7 @@ async function displayGenus(pokemonResponseData) {
   for(let i = 0; i <= pokemonGenera.length - 1; i++) {
     if(pokemonGenera[i].language.name === "en") {
       const pokemonGenus = pokemonGenera[i].genus;
-      document.getElementById('stats').childNodes[18].textContent = "The " + pokemonGenus
+      document.getElementById('stats-data').childNodes[18].textContent = "The " + pokemonGenus
     } 
   }
 }
@@ -116,10 +113,85 @@ async function displayFlavorText(pokemonResponseData) {
       flavorTextStrings.push(flavorTexts[i].flavor_text)
     }
   }
-  console.log(document.getElementById('stats').childNodes[20].textContent)
   const randomFlavorText = flavorTextStrings[Math.floor(Math.random()*flavorTextStrings.length)];
-  document.getElementById('stats').childNodes[20].textContent = randomFlavorText
+  document.getElementById('stats-data').childNodes[20].textContent = randomFlavorText
 }
+
+async function getAllPokemonNames() {
+  const pokemonNamesAndUrls = axios.get('https://pokeapi.co/api/v2/pokemon/?limit=1302')
+  .then(function (response) {
+    return response.data.results;
+  }).catch(function (error) {
+    console.log(error)
+  })
+  return pokemonNamesAndUrls
+}
+
+async function displayRandomPokemon() {
+  const allPokemon = await getAllPokemonNames();
+  const randomPokemon = await allPokemon[Math.floor(Math.random()*allPokemon.length)];
+  setPokemonData(randomPokemon.name)
+}
+
+async function displayOnePokemonBack() {
+  const currentPokemonId = document.getElementById('pokemon-id-number').textContent
+  let onePokemonBackId = Number(currentPokemonId) - 1
+  if(onePokemonBackId === 0) {onePokemonBackId = 1}
+  const pokemonData = await getPokemonDataById(onePokemonBackId)
+  await setPokemonData(pokemonData.name);
+}
+
+async function displayOnePokemonForward() {
+  const currentPokemonId = document.getElementById('pokemon-id-number').textContent
+  let onePokemonForwardId = Number(currentPokemonId) + 1
+  if(onePokemonForwardId === 1303) {onePokemonForwardId = 1302}
+  const pokemonData = await getPokemonDataById(onePokemonForwardId)
+  await setPokemonData(pokemonData.name);
+}
+
+async function setPokemonEvolutionData() {
+  document.getElementById('stats-data').setAttribute('hidden', "")
+  document.getElementById('evolutions-data').removeAttribute('hidden', "")
+  const pokemonIdNumber = document.getElementById('pokemon-id-number').textContent;
+  const pokemonData = await getPokemonDataById(pokemonIdNumber)
+  const pokemonSpeciesData = await getPokemonSpecies(pokemonData)
+  displayEvolvesFrom(pokemonSpeciesData);
+  displayEvolvesInto(pokemonSpeciesData);
+  displayEvolutionTrigger(pokemonSpeciesData);
+}
+
+async function displayEvolvesFrom(pokemonSpeciesData) {
+  if (pokemonSpeciesData.evolves_from_species === null) {
+    document.getElementById('evolutions-data').childNodes[2].textContent = "  No prior evolution"
+  } else {
+    let evolvesFrom = pokemonSpeciesData.evolves_from_species.name;
+    evolvesFrom = capitalizeFirstLetter(evolvesFrom);
+    document.getElementById('evolutions-data').childNodes[2].textContent = "  " + evolvesFrom;
+  }
+}
+
+async function displayEvolvesInto(pokemonSpeciesData) {
+  const evolutionChainUrl = pokemonSpeciesData.evolution_chain.url
+  const evolutionChain = await getEvolutionChain(evolutionChainUrl)
+  let nextEvolution = evolutionChain.chain.evolves_to[0].species.name
+  nextEvolution = capitalizeFirstLetter(nextEvolution)
+  if (evolutionChain.chain.evolves_to[0].length === 0) {
+    document.getElementById('evolutions-data').childNodes[6].textContent = "  No further evolutions";
+  } else {
+    document.getElementById('evolutions-data').childNodes[6].textContent = "  " + nextEvolution;
+  }
+}
+
+async function displayEvolutionTrigger(pokemonSpeciesData) {
+  const evolutionChainUrl = pokemonSpeciesData.evolution_chain.url
+  const evolutionChain = await getEvolutionChain(evolutionChainUrl)
+
+  const evolutionTrigger = evolutionChain.chain.evolves_to[0].evolution_details[0].trigger.name;
+  console.log(evolutionTrigger)
+  document.getElementById('evolutions-data').childNodes[10].textContent = "  " + evolutionTrigger
+}
+
+
 
 async function displayAbilities(abilities) {
   for(let i = 0; i <= abilities.length - 1; i++) {
@@ -145,21 +217,4 @@ async function displayMoves(moves) {
   }
 }
 
-async function displaySpecies(species) {
-  let pokemonSpecies = species.name;
-  document.getElementById('pokemon-species').textContent = pokemonSpecies
-}
 
-async function displayStats(stats) {
-  for(let i = 0; i <= stats.length - 1; i++) {
-    let li = document.createElement('li')
-    li.textContent = stats[i].stat.name;
-    document.getElementById('stats-list').appendChild(li)
-    let baseStatLi = document.createElement('ul')
-    baseStatLi.textContent = "Base Stat: " + stats[i].base_stat
-    li.appendChild(baseStatLi)
-    let effortLi = document.createElement('ul')
-    effortLi.textContent = "Effort: " + stats[i].effort
-    li.appendChild(effortLi)
-  }
-}

@@ -19,7 +19,7 @@
               <div id="curve1_left">
                 <div id="buttonGlass">
                   <div id="reflect"></div>
-                  <div id="pokemon-id-number">2</div>
+                  <div id="pokemon-id-number">54</div>
                 </div>
                 <div id="miniButtonGlass1"></div>
                 <div id="miniButtonGlass2"></div>
@@ -70,32 +70,60 @@
             </div>
             <div id="right">
               <div id="stats">
-                <strong>Name:</strong> Psyduck<br/>
-                <strong>Type:</strong> Water<br/>
-                <strong>Height:</strong> 2'072''<br/>
-                <strong>Weight:</strong> 43.2 lbs.<br/><br/>
-                <strong>The duck Pokemon</strong><br/>
-                Uses mysterious powers to perform various attacks.
+                <div id="stats-data">
+                    <strong>Name:</strong> Psyduck<br/>
+                    <strong>Type:</strong> Water<br/>
+                    <strong>Height:</strong> 2'072''<br/>
+                    <strong>Weight:</strong> 43.2 lbs.<br/><br/>
+                    <strong>The duck Pokemon</strong><br/>
+                    Uses mysterious powers to perform various attacks.
+                </div>
+                <div id="evolutions-data" hidden>
+                    <strong>Evolves From:</strong> ... <br/>
+                    <strong>Evolves Into:</strong> ... <br/>
+                    <strong>Evolution Trigger:</strong> ... <br/>
+                    <strong>TBD:</strong> ...<br/><br/>
+                    <strong>The duck Pokemon</strong><br/>
+                    Uses mysterious powers to perform various attacks.
+                  </div>
               </div>
               <div id="blueButtons1">
-                <div class="blueButton"></div>
-                <div class="blueButton"></div>
-                <div class="blueButton"></div>
-                <div class="blueButton"></div>
-                <div class="blueButton"></div>
+                <button class="blueButton" id="evolutions-button">
+                    <img
+                      class="button-images"
+                      alt="evolutions button"
+                      src="https://raw.githubusercontent.com/PokeAPI/sprites/ca5a7886c10753144e6fae3b69d45a4d42a449b4/sprites/items/dream-world/lucky-egg.png"
+                    >
+                </button>
+                <button class="blueButton" id="abilities-button">
+                    <img
+                      class="button-images"
+                      alt="abilities button"
+                      src="https://raw.githubusercontent.com/PokeAPI/sprites/ca5a7886c10753144e6fae3b69d45a4d42a449b4/sprites/items/dream-world/fighting-gem.png" 
+                      >
+                </button>
+                <button class="blueButton" id="likes-button">
+                    <img
+                      class="button-images"
+                      alt="pokemon likes button"
+                      src="https://raw.githubusercontent.com/PokeAPI/sprites/ca5a7886c10753144e6fae3b69d45a4d42a449b4/sprites/items/dream-world/sweet-heart.png"
+                    >
+                </button>
+                <button class="blueButton"></button>
+                <button class="blueButton"></button>
               </div>
               <div id="blueButtons2">
-                <div class="blueButton"></div>
-                <div class="blueButton"></div>
-                <div class="blueButton"></div>
-                <div class="blueButton"></div>
-                <div class="blueButton"></div>
+                <button class="blueButton"></button>
+                <button class="blueButton"></button>
+                <button class="blueButton"></button>
+                <button class="blueButton"></button>
+                <button class="blueButton"></button>
               </div>
               <div id="miniButtonGlass4"></div>
               <div id="miniButtonGlass5"></div>
               <div id="barbutton3"></div>
               <div id="barbutton4"></div>
-              <button id="yellowBox1">Get Random Pokemon</button>
+              <button class="button" id="yellowBox1">Get Random Pokemon</button>
               <div id="yellowBox2"></div>
               <div id="bg_curve1_right"></div>
               <div id="bg_curve2_right"></div>
@@ -104,6 +132,7 @@
             </div>
           </div>
         <script type="module" src="script.js" type="application/javascript"></script>
+        <script type="module" src="getMethods.js" type="application/javascript"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </body>
 </html>

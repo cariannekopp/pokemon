@@ -3,9 +3,27 @@
 	padding: 0;
 }
 
-
-
 @media all {
+
+    .trigger-button
+    {
+        background-color: green;
+        box-shadow: 0 9px #999;
+        border-radius: 15px;
+        border: none;
+        font-size: 24px;
+    }
+
+    .trigger-button:active
+    {
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+
+    .button-images {
+        margin-top: 4px;
+        height: 25px;
+    }
 
 	div#pokedex
 	{
@@ -774,7 +792,7 @@
 		left: 49px;
 	}
 
-	div.blueButton
+	button.blueButton
 	{
 		height: 35px;
 		width : 45px;
@@ -797,6 +815,11 @@
 		-moz-box-shadow: -1px 2px #001c91;
 		-o-box-shadow: -1px 2px #001c91;
 	}
+
+    div#blueButton:active
+    {
+        transform: translateY(2px);
+    }
 
 	div#barbutton3
 	{
@@ -920,7 +943,7 @@
 		-moz-border-radius: 15px;
 		-o-border-radius: 15px;
 
-		/* box-shadow: 0 0 20px #ff6600 inset; */
+		box-shadow: 0 0 20px #ff6600 inset;
 		-webkit-box-shadow: 0 0 20px #ff6600 inset;
 		-moz-box-shadow: 0 0 20px #ff6600 inset;
 		-o-box-shadow: 0 0 20px #ff6600 inset;
@@ -928,9 +951,14 @@
         padding: 5px;
         font-size: large;
         text-wrap: wrap;
+        outline: none;
         border: none;
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 	}
+
+    button#yellowBox1:active
+    {
+        transform: translateY(2px);
+    }
 
 	div#yellowBox2
 	{

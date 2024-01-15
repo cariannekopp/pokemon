@@ -27,9 +27,16 @@ http.createServer(function(req, res) {
             res.end();
             return;
         });
-
     } else if (req.url === '/script.js') {
         fs.readFile('./script.js', function (err, data) {
+            if (err) { throw err; }
+            res.writeHead(200, { 'Content-Type': 'text/javascript' });
+            res.write(data);
+            res.end();
+            return;
+        });
+    } else if (req.url === '/getMethods.js') {
+        fs.readFile('./getMethods.js', function (err, data) {
             if (err) { throw err; }
             res.writeHead(200, { 'Content-Type': 'text/javascript' });
             res.write(data);
