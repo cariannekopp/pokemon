@@ -20,9 +20,15 @@
         transform: translateY(4px);
     }
 
-    .button-images {
+    .button-images 
+    {
         margin-top: 4px;
         height: 25px;
+    }
+
+    #pokemon-name-display {
+        text-align: center;
+        font-size: larger;
     }
 
 	div#pokedex
@@ -772,7 +778,29 @@
 		-webkit-box-shadow: 0 0 20px #003300 inset;
 		-moz-box-shadow: 0 0 20px #003300 inset;
 		-o-box-shadow: 0 0 20px #003300 inset;
+        overflow: scroll;
 	}
+
+    div#stats-container
+    {
+        margin-top: 5px;
+    }
+
+    div#base-stats-container
+    {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        margin-bottom: 10px;
+        gap: 50px;
+        text-align: left;
+    }
+
+    #abilities-data-container
+    {
+        display: flex;
+        flex-direction: row;
+    }
 
 	div#blueButtons1
 	{

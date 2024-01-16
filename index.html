@@ -37,7 +37,7 @@
                   <div id="buttontopPicture2"></div>
                 </div>
                 <div id="picture">
-                  <img id="display-picture" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/200653/psykokwak.gif" alt="psykokwak" height="170" />
+                  <img id="display-picture" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/54.png" alt="Psyduck" height="170" />
                 </div>
                 <div id="buttonbottomPicture"></div>
                 <div id="speakers">
@@ -70,29 +70,68 @@
             </div>
             <div id="right">
               <div id="stats">
-                <div id="stats-data">
-                    <strong>Name:</strong> Psyduck<br/>
-                    <strong>Type:</strong> Water<br/>
-                    <strong>Height:</strong> 2'072''<br/>
-                    <strong>Weight:</strong> 43.2 lbs.<br/><br/>
-                    <strong>The duck Pokemon</strong><br/>
-                    Uses mysterious powers to perform various attacks.
-                </div>
-                <div id="evolutions-data" hidden>
-                    <strong>Evolves From:</strong> ... <br/>
-                    <strong>Evolves Into:</strong> ... <br/>
-                    <strong>Evolution Trigger:</strong> ... <br/>
-                    <strong>Growth Rate:</strong> ...<br/><br/>
-                    <strong>The duck Pokemon</strong><br/>
-                    Uses mysterious powers to perform various attacks.
-                  </div>
-                <div id="abilities-data" hidden>
-                  <strong>TBD:</strong> ... <br/>
-                  <strong>TBD:</strong> ... <br/>
-                  <strong>TBD:</strong> ... <br/>
-                  <strong>TBD:</strong> ... <br/><br/>
-                  <strong>The duck Pokemon</strong><br/>
-                  Uses mysterious powers to perform various attacks.
+                <div id="pokemon-name-display">PSYDUCK</div>
+                <hr style="border: dotted;">
+                <div id="stats-container">
+                    <div id="stats-data">
+                        <div id="base-stats-container">
+                            <div style="width: 50%;">
+                                <span>
+                                    <strong>Type:</strong> 
+                                    <span id="stat-type">Water</span>
+                                </span>
+                                <br>
+                                <span>
+                                    <strong>Height:</strong> 
+                                    <span id="stat-height">2'072'</span>
+                                </span>
+                            </div>
+                            <div style="width: 50%;">
+                                <span>
+                                    <strong>Weight:</strong> 
+                                    <span id="stat-weight">43.2</span>
+                                </span>
+                                <br>
+                                <span>
+                                    <strong>Color:</strong> 
+                                    <span id="stat-color">Yellow</span>
+                                </span>
+                                <br>
+                            </div>
+                        </div>
+                        <div id="description-container">
+                            <strong>The duck Pokemon</strong><br/>
+                            Uses mysterious powers to perform various attacks.
+                        </div>
+                    </div>
+                    <div id="evolutions-data" hidden>
+                        <span>
+                            <strong>Evolves From:</strong> 
+                            <span id="evolve-from">...</span>
+                        </span>
+                        <br>
+                        <span>
+                            <strong>Evolves Into:</strong> 
+                            <span id="evolve-into">...</span>
+                        </span>
+                        <br>
+                        <span>
+                            <strong>Evolution Trigger:</strong> 
+                            <span id="evolve-trigger">...</span>
+                        </span>
+                        <br>
+                        <span>
+                            <strong>Growth Rate:</strong> 
+                            <span id="growth-rate">...</span>
+                        </span>
+                        <br>
+                      </div>
+                    <div id="abilities-data" hidden>
+                        <div id="abilities-data-container">
+                            <div style="width: 50%;"></div>
+                            <div style="width: 50%;"></div>
+                        </div>
+                    </div>
                 </div>
               </div>
               <div id="blueButtons1">
